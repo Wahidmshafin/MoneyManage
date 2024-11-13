@@ -1,0 +1,57 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+
+# Production build
+build/
+dist/
+
+# FastAPI specific
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+.env
+
+# IDE and editor specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# React specific
+*.eslintcache
+.yarn/
+.yarnrc.yml
+.yarn-error.log
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Temporary files
+temp/
+tmp/
+
+# EditorConfig
+.editorconfig
+
+
+# Env
+env
+
+#Environment file
+.env
