@@ -11,3 +11,11 @@ class Transaction(Base):
     date: Mapped[str] = mapped_column(nullable=False)
     is_income: Mapped[bool] = mapped_column(nullable=False)
 
+class User(Base):
+    __tablename__ = "user"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(nullable=False)
+    pin: Mapped[str] = mapped_column(nullable=False)
+
+

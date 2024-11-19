@@ -5,16 +5,32 @@ import List from './List.jsx'
 import Form from './Form.jsx'
 import { Container} from '@mui/material'
 import Grid from '@mui/material/Grid2';
+import Button from '@mui/material/Button';
+import { Navigate, replace, useNavigate } from 'react-router-dom'
 
 function App() {
     const [addCard, setAddCard] = useState(0)
-  
+    const navigate = useNavigate()
+    
+    function logOut(){
+      localStorage.clear()
+      navigate('/login')
+    }
+
     return (
       <>
         <Container maxWidth="lg" sx={{ marginTop: "20px" }}>
           <Grid container direction="column" spacing={2}>
             <Grid lg={4}>
-              <Form addCard={() => { setAddCard(addCard + 1) }} />
+              <div className='row'>
+                <div className='col-8'>
+                <Form addCard={() => { setAddCard(addCard + 1) }} />
+                </div>
+                <div className='col-4' style={{ textAlign: 'right' }}>
+                <Button variant="contained" onClick={logOut}>Log out</Button>
+                </div>
+              </div>
+              
             </Grid>
             <Grid lg={8}>
               <List addCard={addCard} />
