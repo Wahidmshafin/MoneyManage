@@ -52,7 +52,7 @@ async def create_transaction(transaction: TransactionBase, db: Session = Depends
     return db_transaction
 
 @router.get("/transaction/all", response_model=List[TransactionModel])
-async def get_all_transactions( db: Session = Depends(get_db)):
+async def get_all_transactions(currentUser:str = Depends(get_current_user), db: Session = Depends(get_db)):
     stmt = select(Transaction)
     transactions = db.scalars(stmt).all()
     return transactions
@@ -73,7 +73,7 @@ async def login_user(user: LoginBase, db: Session = Depends(get_db)):
 
 @router.post("/register", response_model= UserModel, status_code = status.HTTP_200_OK, summary= "Register a new user")
 async def register_user(user:UserBase, db:Session = Depends(get_db)):
-    db_check = get_user(user.username)
+    db_check = get_user(user, db)
     # check if username already exists
     if db_check:
         raise HTTPException(status_code=400, detail="Username already exists")

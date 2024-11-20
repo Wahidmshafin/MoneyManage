@@ -7,14 +7,15 @@ import { Container} from '@mui/material'
 import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import { Navigate, replace, useNavigate } from 'react-router-dom'
+import { removeToken } from './Auth.js'
 
 function App() {
     const [addCard, setAddCard] = useState(0)
     const navigate = useNavigate()
     
-    function logOut(){
-      localStorage.clear()
-      navigate('/login')
+     const logOut = () => {
+        removeToken()
+        navigate('/login')
     }
 
     return (

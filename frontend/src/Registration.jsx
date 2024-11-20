@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FormControl, InputLabel, OutlinedInput, Box, Button, Container, InputAdornment, RadioGroup, FormControlLabel, FormLabel, Radio, TextField } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, Box, Button, Container, InputAdornment, RadioGroup, FormControlLabel, FormLabel, Radio, TextField, Alert } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function Register() {
@@ -9,6 +10,10 @@ function Register() {
         email: "",
         pin:"",
     })
+
+    const [error, setError] = useState("")
+
+    const navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,10 +28,15 @@ function Register() {
                     body: JSON.stringify(userData)
                 }
             ).then(resonse => resonse.json())
-            .then(data => console.log("Registration Complete ",data))
+            .then(data => {
+                if(data.detail)
+                    throw new Error(data.detail)
+                navigate("/login")
+            })
         }catch(e){
-            console.log(e)
+            setError(e.message)
         }
+        
     };
 
     const handleChange = (e)=>{
@@ -81,10 +91,12 @@ function Register() {
                                             />
                                         </FormControl>
 
+                                        {error &&<Alert severity='error' sx={{mt:2}} className='text-center'>{error}</Alert>}
                                         
                                         <button data-mdb-button-init data-mdb-ripple-init className="btn btn-dark btn-lg px-5 mt-5" type="submit">
                                             Sign Up
                                         </button>
+                                        
 
                                     </div>
                                 </form>

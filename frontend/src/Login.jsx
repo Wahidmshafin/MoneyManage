@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FormControl, InputLabel, OutlinedInput, Box, Button, Container, InputAdornment, RadioGroup, FormControlLabel, FormLabel, Radio, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
+import { setToken } from './Auth';
 
 function Login() {
 
@@ -21,19 +22,19 @@ function Login() {
         e.preventDefault();
         // Handle login logic here
         setError("")
-            fetch("http://localhost:8000/v1/login",{
-                method:"POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(userData)
-            })
-            .then(res=>res.json())
-            .then((data)=>{
-                if(data.detail)
-                    throw Error(data.detail)
-                localStorage.setItem("access_token", data.access_token)    
-                navigate("/")
-            })
-            .catch(err=>setError(err.message))
+        fetch("http://localhost:8000/v1/login",{
+            method:"POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(userData)
+        })
+        .then(res=>res.json())
+        .then((data)=>{
+            if(data.detail)
+                throw Error(data.detail)
+            setToken(data.access_token)
+            navigate("/")
+        })
+        .catch(err=>setError(err.message))
         
     };
 
@@ -80,7 +81,7 @@ function Login() {
 
                                     <div>
                                         <p className="mb-0">
-                                            Don't have an account? <a href="#!" className="fw-bold">Sign Up</a>
+                                            Don't have an account? <Link to="/register"> <a href="#" className="fw-bold">Sign Up</a> </Link>
                                         </p>
                                     </div>
                                 </form>
