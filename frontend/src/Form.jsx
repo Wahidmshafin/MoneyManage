@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
 import dayjs from 'dayjs';
+import { fetchToken } from './Auth';
 
 function Form(prop){
 
@@ -35,6 +36,7 @@ function Form(prop){
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            "Authorization": `Bearer ${fetchToken()}`
           },
           body: JSON.stringify(formData)
       })

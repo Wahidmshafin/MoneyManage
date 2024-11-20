@@ -5,9 +5,11 @@ class TransactionBase(BaseModel):
     description: str
     date: str
     is_income: bool
+    
 
 class TransactionModel(TransactionBase):
     id: int
+    user_id: int
     class Config:
         orm_mode = True       
 
@@ -23,11 +25,18 @@ class UserModel(UserBase):
     class Config:
         orm_mode = True
 
+class UserRead(UserBase):
+    id:int
+    transactions: list[TransactionModel] = []
+
+    class Config:
+        orm_mode = True
+
 class LoginBase(BaseModel):
     username:str
     pin: str
 
-class LoginModel(BaseModel):
+class TokenData(BaseModel):
     access_token: str
     token_type: str
 
