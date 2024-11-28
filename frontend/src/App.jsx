@@ -15,11 +15,6 @@ function App() {
     
     const auth = useAuth()
 
-    //  const logOut = () => {
-    //     removeToken()
-    //     navigate('/login')
-    // }
-
     return (
       <>
         <Container maxWidth="lg" sx={{ marginTop: "20px" }}>
