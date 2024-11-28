@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormControl, InputLabel, OutlinedInput, Box, Button, Container, InputAdornment, RadioGroup, FormControlLabel, FormLabel, Radio, TextField } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
-import { setToken } from './Auth';
+import { useAuth } from './AuthProvider';
 
 function Login() {
 
@@ -10,9 +10,10 @@ function Login() {
         username: '',
         pin: ''
     })
-    const [error, setError] = useState("")
+    // const [error, setError] = useState("")
     
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
+    const auth = useAuth()
 
     const handleChange = (e)=>{
         setUserData({...userData, [e.target.name]: e.target.value})
@@ -21,20 +22,7 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle login logic here
-        setError("")
-        fetch("http://localhost:8000/v1/login",{
-            method:"POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(userData)
-        })
-        .then(res=>res.json())
-        .then((data)=>{
-            if(data.detail)
-                throw Error(data.detail)
-            setToken(data.access_token)
-            navigate("/")
-        })
-        .catch(err=>setError(err.message))
+        auth.login(userData)
         
     };
 
@@ -72,7 +60,7 @@ function Login() {
                                             onChange={handleChange}
                                             />
                                         </FormControl>
-                                        {error &&<Alert severity='error' sx={{mt:2}} className='text-center'>{error}</Alert>}
+                                        {auth.error &&<Alert severity='error' sx={{mt:2}} className='text-center'>{auth.error}</Alert>}
                                         <button data-mdb-button-init data-mdb-ripple-init className="btn btn-dark btn-lg px-5 mt-5" type="submit">
                                             Login
                                         </button>
@@ -81,7 +69,7 @@ function Login() {
 
                                     <div>
                                         <p className="mb-0">
-                                            Don't have an account? <Link to="/register"> <a href="#" className="fw-bold">Sign Up</a> </Link>
+                                            Don't have an account? <Link to="/register" className='fw-bold'>Sign Up</Link>
                                         </p>
                                     </div>
                                 </form>

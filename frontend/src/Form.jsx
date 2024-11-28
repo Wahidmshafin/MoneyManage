@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
 import dayjs from 'dayjs';
-import { fetchToken } from './Auth';
+import { useAuth } from './AuthProvider';
 
 function Form(prop){
 
@@ -14,8 +14,10 @@ function Form(prop){
       is_income: false,
       description: '',
       amount: 0,
-      date: dayjs('2022-04-17').format('YYYY-MM-DD'),
+      date: dayjs(new Date().toLocaleDateString()).format('YYYY-MM-DD'),
     })
+
+    const auth = useAuth()
 
     const handleChange = (e) =>{
       const {name, value } = e.target
@@ -36,7 +38,7 @@ function Form(prop){
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "Authorization": `Bearer ${fetchToken()}`
+            "Authorization": `Bearer ${auth.token}`
           },
           body: JSON.stringify(formData)
       })

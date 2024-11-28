@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react'
 import Card from './Card'
 import { Grid2 } from '@mui/material'
-import { fetchToken } from './Auth'
+import { useAuth } from './AuthProvider'
 
 
 
 function List(prop) {
   const [transactionData, setTransactionData] = useState([])
-  
+  const auth = useAuth()
   
   useEffect(() => {
     fetch('http://localhost:8000/v1/transaction/all',{
       headers:{
-        "Authorization":`Bearer ${fetchToken()}`
+        "Authorization":`Bearer ${auth.token}`
       }
     
     })
@@ -20,7 +20,7 @@ function List(prop) {
     .then(data => setTransactionData(data))
     .catch(err => console.log(err))
   },[prop.addCard])
-
+  console.log(transactionData)
   return (
     <>
     <Grid2 container spacing={2}>

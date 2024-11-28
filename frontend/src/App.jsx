@@ -7,16 +7,18 @@ import { Container} from '@mui/material'
 import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import { Navigate, replace, useNavigate } from 'react-router-dom'
-import { removeToken } from './Auth.js'
+import { useAuth } from './AuthProvider.jsx'
 
 function App() {
     const [addCard, setAddCard] = useState(0)
     const navigate = useNavigate()
     
-     const logOut = () => {
-        removeToken()
-        navigate('/login')
-    }
+    const auth = useAuth()
+
+    //  const logOut = () => {
+    //     removeToken()
+    //     navigate('/login')
+    // }
 
     return (
       <>
@@ -28,7 +30,7 @@ function App() {
                 <Form addCard={() => { setAddCard(addCard + 1) }} />
                 </div>
                 <div className='col-4' style={{ textAlign: 'right' }}>
-                <Button variant="contained" onClick={logOut}>Log out</Button>
+                <Button variant="contained" onClick={auth.logout}>Log out</Button>
                 </div>
               </div>
               

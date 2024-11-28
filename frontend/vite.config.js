@@ -9,5 +9,10 @@ export default defineConfig({
     host: true,
     origin: "https://0.0.0.0:3000",
    },
+   test:{
+    environment:'jsdom',
+    globals: true
+    
+   },
   plugins: [react()],
 })

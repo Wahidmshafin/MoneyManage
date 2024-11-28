@@ -37,6 +37,11 @@ async def get_current_user(token: str = Depends(oauh2_scheme), db:Session = Depe
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
     
+
+@router.get("/me", response_model=UserModel, status_code=status.HTTP_200_OK, summary="Get current user information")
+async def get_current_user_info(currentUser:str = Depends(get_current_user)):
+    return currentUser
+
 @router.post("/transaction", response_model=TransactionModel, status_code=status.HTTP_200_OK, summary="Create a new transaction")
 async def create_transaction(transaction: TransactionBase, currentUser:str=Depends(get_current_user), db: Session = Depends(get_db)):
     # db_transaction = Transaction(**transaction.model_dump())
