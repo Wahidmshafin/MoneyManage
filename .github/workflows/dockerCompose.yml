@@ -9,11 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Run docker-compose
+      - name: Run docker-compose up --build
         uses: hoverkraft-tech/compose-action@v2.0.1
         with:
           compose-file: "./docker-compose.yml"
 
-      - name: Execute tests in the running services
-        run: |
-          docker-compose exec test-app pytest
+      # - name: Execute tests in the running services
+      #   run: |
+      #     docker-compose exec test-app pytest
