@@ -52,6 +52,7 @@ function Form(prop){
             date: dayjs('2022-04-17').format('YYYY-MM-DD'),
           })
           prop.addCard()
+          prop.handleClose()
         }
         
       }catch(error) {
