@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 class TransactionBase(BaseModel):
     amount: float
+    category:str
     description: str
     date: str
     is_income: bool

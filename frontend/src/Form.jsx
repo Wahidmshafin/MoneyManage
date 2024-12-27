@@ -1,5 +1,5 @@
 
-import { FormControl, InputLabel, OutlinedInput, Box, Button, Container, InputAdornment, RadioGroup, FormControlLabel, FormLabel, Radio, TextField } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, Box, Button, Container, InputAdornment, RadioGroup, FormControlLabel, FormLabel, Radio, TextField, Select, MenuItem } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -12,6 +12,7 @@ function Form(prop){
 
     const [formData, setFormData] = useState({
       is_income: false,
+      category:'',
       description: '',
       amount: 0,
       date: dayjs(new Date().toLocaleDateString()).format('YYYY-MM-DD'),
@@ -47,9 +48,10 @@ function Form(prop){
           const data = await response.json()
           setFormData({
             is_income: false,
+            category:'',
             description: "",
             amount: 0,
-            date: dayjs('2022-04-17').format('YYYY-MM-DD'),
+            date: dayjs(new Date().toLocaleDateString()).format('YYYY-MM-DD'),
           })
           prop.addCard()
           prop.handleClose()
@@ -71,7 +73,24 @@ function Form(prop){
              <FormControlLabel value={true} control={<Radio />} label="Income" />
             </RadioGroup>
           </FormControl>
-          
+          <FormControl>
+            <InputLabel id="demo-simple-select-label">Category</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={formData.category}
+              name = "category"
+              label="Category"
+              onChange={handleChange}>
+                
+                {formData.is_income?(<MenuItem value={"Salary"}>Salary</MenuItem>):(<MenuItem value={"Food"}>Food</MenuItem>)}
+                {formData.is_income?<MenuItem value={"Rental_Income"}>Rental Income</MenuItem>:<MenuItem value={"Transport"}>Transport</MenuItem>}
+                {formData.is_income?<MenuItem value={"Allowence"}>Allowence</MenuItem>:<MenuItem value={"Rent"}>Rent & Bills</MenuItem>}
+                {formData.is_income?<MenuItem value={"Borrow"}>Borrow</MenuItem>:<MenuItem value={"Shopping"}>Shopping</MenuItem>}
+                <MenuItem value={"Others"}>Others</MenuItem>              
+            </Select>
+            
+          </FormControl>
           <FormControl>
           <TextField
           id="outlined-multiline-flexible"

@@ -45,10 +45,10 @@ async def get_current_user_info(currentUser:str = Depends(get_current_user)):
 @router.post("/transaction", response_model=TransactionModel, status_code=status.HTTP_200_OK, summary="Create a new transaction")
 async def create_transaction(transaction: TransactionBase, currentUser:str=Depends(get_current_user), db: Session = Depends(get_db)):
     # db_transaction = Transaction(**transaction.model_dump())
-    db_transaction = Transaction(amount=transaction.amount, description=transaction.description, is_income = transaction.is_income, date = transaction.date, user_id=currentUser.id)
-
+    db_transaction = Transaction(amount=transaction.amount, category=transaction.category, description=transaction.description, is_income = transaction.is_income, date = transaction.date , user_id=currentUser.id)
     db.add(db_transaction)
     db.commit()
+    # print("Transactions: ",db_transaction.__str__())
     db.refresh(db_transaction)
     return db_transaction
 

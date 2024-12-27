@@ -49,7 +49,7 @@ function App() {
             <Grid lg={4}>
               <div className='row'>
                 <div className='col-8' style={{display:'flex'}}>
-                <AccountBalanceIcon fontSize='large' color='success' sx={{marginBlock:'auto'}} /><h1>Money Manage</h1>
+                <AccountBalanceIcon fontSize='large' color='success' sx={{marginBlock:'auto'}} /><h1>Money Manager</h1>
                  
                 </div>
                 <div className='col-4' style={{ textAlign: 'right' }}>
@@ -60,8 +60,8 @@ function App() {
               
             </Grid>
             <Grid lg={8}>
-              <List addCard={addCard} />
-              {/* <RecordTable></RecordTable> */}
+              {/* <List addCard={addCard} /> */}
+              <RecordTable addCard={addCard} />
             </Grid>
           </Grid>
           <Modal
