@@ -8,6 +8,7 @@ import Register from './Registration'
 import CardMonth from './CardMonth'
 import ProtectedRoute from './ProtectedRoute';
 import AuthProvider from './AuthProvider';
+import MonthDetail from './MonthDetail';
 
 createRoot(document.getElementById('root')).render(
   <div>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <Routes>
         <Route path="/" element={<ProtectedRoute><App /></ProtectedRoute> } />
+        <Route path="/details/:month" element={<ProtectedRoute><MonthDetail/></ProtectedRoute> } />
         {/* <Route path="/" element={<ProtectedRoute><CardMonth month = "January" income="55000" expense = "54205" save = "50" /></ProtectedRoute> } /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

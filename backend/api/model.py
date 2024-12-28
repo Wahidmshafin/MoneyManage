@@ -8,11 +8,26 @@ class TransactionBase(BaseModel):
     is_income: bool
     
 
-class TransactionModel(TransactionBase):
+class TransactionModel(BaseModel):
     id: int
+    amount: float
+    category:str
+    description: str
+    day: int
+    month: int
+    year: int
+    is_income: bool
     user_id: int
     class Config:
         orm_mode = True       
+
+class TransactionByMonth(BaseModel):
+    month: str
+    income: int
+    expense: int
+
+    class Config:
+        orm_mode = True    
 
 
 class UserBase(BaseModel):

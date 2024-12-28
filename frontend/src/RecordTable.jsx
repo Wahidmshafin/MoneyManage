@@ -47,7 +47,7 @@ export default function RecordTable(prop) {
                             {transactionData.map((transaction,index)=>{
                                 return (
                                     <tr key={transaction.id}>
-                                        <td scope="row"><span className='fw-bold'> {transaction.date}</span></td>
+                                        <td scope="row"><span className='fw-bold'> {transaction.year}-{transaction.month}-{transaction.day}</span></td>
                                         <th>
                                            {transaction.is_income?<span className="text-success">Income</span>:<span className="text-danger">Expense</span>}
                                         </th>

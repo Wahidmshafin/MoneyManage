@@ -3,12 +3,12 @@ import jwt
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.orm import Session  
 from typing import List
 from database.model import Transaction, User
 from database.connection import get_db
-from ..model import TransactionBase, TransactionModel, UserBase, UserModel, LoginBase, TokenData
+from ..model import TransactionBase, TransactionModel, TransactionByMonth, UserBase, UserModel, LoginBase, TokenData
 
 
 router = APIRouter(prefix="/v1", tags=["v1"])
@@ -45,10 +45,10 @@ async def get_current_user_info(currentUser:str = Depends(get_current_user)):
 @router.post("/transaction", response_model=TransactionModel, status_code=status.HTTP_200_OK, summary="Create a new transaction")
 async def create_transaction(transaction: TransactionBase, currentUser:str=Depends(get_current_user), db: Session = Depends(get_db)):
     # db_transaction = Transaction(**transaction.model_dump())
-    db_transaction = Transaction(amount=transaction.amount, category=transaction.category, description=transaction.description, is_income = transaction.is_income, date = transaction.date , user_id=currentUser.id)
+    db_transaction = Transaction(amount=transaction.amount, category=transaction.category, description=transaction.description, is_income = transaction.is_income, day =datetime.strptime(transaction.date, "%Y-%m-%d").day,month =datetime.strptime(transaction.date, "%Y-%m-%d").month, year =datetime.strptime(transaction.date, "%Y-%m-%d").year, user_id=currentUser.id)
     db.add(db_transaction)
     db.commit()
-    # print("Transactions: ",db_transaction.__str__())
+    print("Transactions: ",db_transaction.__str__())
     db.refresh(db_transaction)
     return db_transaction
 
@@ -57,6 +57,20 @@ async def get_all_transactions(currentUser:str = Depends(get_current_user), db: 
     # stmt = select(Transaction)
     # transactions = db.scalars(stmt).all()
     return currentUser.transactions
+
+@router.get("/transaction/{transactionMonth}", response_model=List[TransactionModel], summary="Get all transactions of a month")
+async def get_transactions_by_month(transactionMonth: str, currentUser:str = Depends(get_current_user), db: Session = Depends(get_db)):
+    stmt = text("SELECT * FROM transaction WHERE month= :transactionMonth and user_id=:user_id")
+    # stmt = text("SELECT * FROM transaction")
+    result = db.execute(stmt, {"transactionMonth": transactionMonth, "user_id": currentUser.id}).all()
+    return result
+
+@router.get("/monthly", response_model=List[TransactionByMonth], summary="Get all transactions for each month")
+async def total_transaction(currentUser:str = Depends(get_current_user), db: Session = Depends(get_db)):
+    stmt = text("SELECT TO_CHAR(TO_DATE(month::text, 'MM'), 'FMMonth') AS month, SUM(CASE WHEN is_income = true THEN amount ELSE 0 END) AS income, SUM(CASE WHEN is_income = false THEN amount ELSE 0 END) AS expense FROM transaction WHERE user_id=:user_id GROUP BY month")
+    result = db.execute(stmt, {"user_id": currentUser.id}).all()
+    print("Result: ",currentUser.id)
+    return result
 
 
 @router.post("/login", response_model=TokenData, status_code=status.HTTP_200_OK, summary="Login a user")

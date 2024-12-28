@@ -20,7 +20,7 @@ function List(prop) {
     .then(data => setTransactionData(data))
     .catch(err => console.log(err))
   },[prop.addCard])
-  console.log(transactionData)
+  
   return (
     <>
     <Grid2 container spacing={2}>
