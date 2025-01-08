@@ -5,9 +5,15 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   server: {
     port: 3000,
-    strictPort: true,
+    // strictPort: true,
     host: true,
-    origin: "https://0.0.0.0:3000",
+    // origin: "https://0.0.0.0:3000",
+    // proxy:{
+    //   '/v1':{
+    //     target:'http://0.0.0.0:8000',
+    //     changeOrigin:true,
+    //   }
+    // }
    },
    test:{
     environment:'jsdom',
@@ -15,4 +21,5 @@ export default defineConfig({
     
    },
   plugins: [react()],
+  // base:'/'
 })

@@ -4,7 +4,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 function CardMonth(prop){
     return (
         <div onClick={prop.onClick} className="card" style={{ width: '15rem' }}>
-        <img className="card-img-top" src="./public/jan.jpg" style={{opacity: 0.5}} alt="Card image cap"></img>
+        <img className="card-img-top" src="/jan.jpg" style={{opacity: 0.5}} alt="Card image cap"></img>
         <div className="image-overlay position-absolute" style={{fontSize:"32px", color: 'white',  left:"50%", transform:"translate(-50%)",  background: 'rgba(0, 0, 0, 0.5)', marginTop:"50px", padding: '5px 10px', borderRadius: '5px' }}>
                 {prop.month}
             </div>
